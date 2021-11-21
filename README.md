@@ -1,3 +1,20 @@
+# Test code
+
+Copy of https://github.com/spietras/rules_conda/tree/269657d4a94e8804009224bb4785d6364193a7ad/example
+
+modified for this issue: https://github.com/spietras/rules_conda/issues/31
+
+Build with:
+
+```
+bazel build app:number_py_ext.so
+```
+
+
+-----------
+
+original readme:
+
 # rules_conda example
 
 Simple Python app demonstrating usage of `rules_conda`

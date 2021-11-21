@@ -24,4 +24,5 @@ pybind_extension(
 py_binary(
     name = "main",
     srcs = glob(["**/*.py"]),
+    deps = [":number_py_ext.so"]
 )

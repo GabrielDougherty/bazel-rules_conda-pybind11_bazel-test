@@ -28,7 +28,7 @@ load("@rules_conda//:defs.bzl", "conda_create", "load_conda", "register_toolchai
 # download and install conda
 load_conda(
     conda_version = "4.10.3",  # optional, defaults to 4.10.3
-    install_mamba = False,  # use True to install mamba, which a faster drop-in replacement for conda
+    install_mamba = True,  # use True to install mamba, which a faster drop-in replacement for conda
     mamba_version = "0.17.0",  # optional, defaults to 0.17.0
     quiet = False,  # use True to hide conda output
 )
@@ -40,7 +40,7 @@ conda_create(
     clean = False,  # use True if you want to clean conda cache (less space taken, but slower subsequent builds)
     environment = "@//third_party/conda:py3_environment.yml",  # label pointing to environment.yml file
     quiet = False,  # use True to hide conda output
-    use_mamba = False,  # use True to use mamba, which a faster drop-in replacement for conda
+    use_mamba = True,  # use True to use mamba, which a faster drop-in replacement for conda
 )
 
 # register pythons from environment as toolchain
@@ -62,28 +62,26 @@ http_archive(
 )
 load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 
-load("@//:interpreter.bzl", "python_interpreter")
-
 ### this does not work (try #1):
 
-filegroup(
-    name = "python_interpreter",
-    srcs = (["@py3_env//:py3_env/bin/python","@py3_env//:py3_env/python.exe"])
-)
-
-python_configure(
-    name = "local_config_python",
-    python_interpreter_target = ":python_interpreter",
-)
+# filegroup(
+#     name = "python_interpreter",
+#     srcs = (["@py3_env//:py3_env/bin/python","@py3_env//:py3_env/python.exe"])
+# )
+# 
+# python_configure(
+#     name = "local_config_python",
+#     python_interpreter_target = ":python_interpreter",
+# )
 
 ### This does not work (try #2):
-python_configure(
-    name = "local_config_python",
-    python_interpreter_target =  select({
-        "@bazel_tools//src/conditions:windows": "@py3_env//:py3_env/python.exe",
-        "//conditions:default": "@py3_env//:py3_env/bin/python",
-  }),
-)
+# python_configure(
+#     name = "local_config_python",
+#     python_interpreter_target =  select({
+#         "@bazel_tools//src/conditions:windows": "@py3_env//:py3_env/python.exe",
+#         "//conditions:default": "@py3_env//:py3_env/bin/python",
+#   }),
+# )
 
 ### This works but is not platform-independent:
 python_configure(
