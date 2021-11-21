@@ -83,6 +83,14 @@ load("@pybind11_bazel//:python_configure.bzl", "python_configure")
 #   }),
 # )
 
+### This does not work (try #3):
+# load("@//:interpreter.bzl", "interpreter")
+# interpreter("py3_env")
+# python_configure(
+#     name = "local_config_python",
+#     python_interpreter_target = "@://py3_env_interpreter",
+# )
+
 ### This works but is not platform-independent:
 python_configure(
     name = "local_config_python",
